@@ -6,7 +6,7 @@ SITE = "https://statsapi.web.nhl.com/api/v1"
 index_to_stat = []
 constructed = False #only construct index_to_stat once
 
-def get_season_data(option: str, season: str, info: str):
+def get_season_data(info: str, season: str, options: str):
     """
     info: Information to be fetched (/teams?season= for team data)
     season: String containing season that the data is coming from
@@ -55,16 +55,16 @@ def main():
     the Stanley Cup
     """
     #print("Starting...")
-    option = "/teams?season="
+    info = "/teams?season="
     season = "20182019"
-    info = "&expand=team.stats"
+    options = "&expand=team.stats"
 
     season_tables = {}
     start_year = 2018
     end_year = 2018
     for i in range(start_year, end_year + 1):
         season = str(i) + str(i + 1)
-        season_tables[i] = get_season_data(option, season, info)
+        season_tables[i] = get_season_data(info, season, options)
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,7 @@ from requests import get
 from sys import stderr
 import sqlite3
 import pandas
+from sklearn.linear_model import Ridge
 
 SITE = "https://statsapi.web.nhl.com/api/v1"
 
@@ -10,7 +11,7 @@ acronyms = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARZ", "Atlanta Thrashers
         "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL",
         "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET",
         "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK",
-        "Minnesota Wild": "MIN", "Montreal Canadiens": "MTL", "Nashville Predators": "NSH",
+        "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH",
         "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR",
         "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Phoenix Coyotes": "PHX",
         "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL",
@@ -89,11 +90,15 @@ def main():
                 df_created = True
                 df = new_df
         df.to_sql("stanley-cup-predictions", conn)
-    else:
-        df = pandas.read_sql("SELECT * FROM 'stanley-cup-predictions'", conn)
-        df = df.drop(['index'], axis = 1)
-
-    print(df)
+        f = open("playoff_results.sql", "r")
+        content = f.read()
+        queries = content.split(";")
+        for query in queries:
+            cur.execute(query)
+            conn.commit()
+    df = pandas.read_sql("SELECT * FROM 'stanley-cup-predictions'", conn)
+    df = df.drop(['index'], axis = 1)
+    #print(df)
 
 if __name__ == "__main__":
     main()

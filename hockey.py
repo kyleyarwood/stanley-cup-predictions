@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 
 SITE = "https://statsapi.web.nhl.com/api/v1"
 
+index_to_team = {}
+
 acronyms = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARZ", "Atlanta Thrashers": "ATL",
         "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY",
         "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL",
@@ -58,6 +60,22 @@ def get_season_data(info: str, season: str, options: str):
     df["season"] = season
     return df
 
+def predict_stanley_cup_winner_in_season(df, season):
+        model = Ridge()
+        train = df[df['season'] != season]
+        test = df[df['season'] == season]
+        train = train.drop(['team', 'season'], axis = 1)
+        test = test.drop(['team', 'season'], axis = 1)
+
+        Xs_train = train.drop(['playoffRoundWins'], axis = 1)
+        y_train = train['playoffRoundWins']
+        Xs_test = test.drop(['playoffRoundWins'], axis = 1)
+        y_test = test['playoffRoundWins']
+
+        model.fit(Xs_train, y_train)
+        pred_values = model.predict(Xs_test)
+        print(list(pred_values), list(y_test))
+
 def main():
     """
     TODO: analyze season_tables to determine which team will win
@@ -98,18 +116,16 @@ def main():
             cur.execute(query)
             conn.commit()
     df = pandas.read_sql("SELECT * FROM 'stanley-cup-predictions'", conn)
+
+    global index_to_team
+    index_to_team = df[['team']].to_dict()['team']
+
     df.drop(['index'], axis = 1, inplace = True)
     df = df[df['playoffRoundWins'].notnull()]
 
-    model = Ridge()
-    useful_stats = df.drop(['team', 'season'], axis = 1)
-    Xs = useful_stats.drop(['playoffRoundWins'], axis = 1)
-    y = useful_stats['playoffRoundWins']
-    Xs_train, Xs_test, y_train, y_test = train_test_split(Xs, y, test_size = 0.33)
-    print(Xs_train, y_train)
-    model.fit(Xs_train, y_train)
-    pred_values = model.predict(Xs_test)
-    print(pred_values)
+    """for i in range(start_year, end_year + 1):
+        predict_stanley_cup_winner_in_season(df, str(i) + str(i + 1))"""
+    predict_stanley_cup_winner_in_season(df, '20132014')
     #print(df)
 
 if __name__ == "__main__":

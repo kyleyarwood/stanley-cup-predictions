@@ -3,6 +3,7 @@ from sys import stderr
 import sqlite3
 import pandas
 from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
 
 SITE = "https://statsapi.web.nhl.com/api/v1"
 
@@ -97,7 +98,18 @@ def main():
             cur.execute(query)
             conn.commit()
     df = pandas.read_sql("SELECT * FROM 'stanley-cup-predictions'", conn)
-    df = df.drop(['index'], axis = 1)
+    df.drop(['index'], axis = 1, inplace = True)
+    df = df[df['playoffRoundWins'].notnull()]
+
+    model = Ridge()
+    useful_stats = df.drop(['team', 'season'], axis = 1)
+    Xs = useful_stats.drop(['playoffRoundWins'], axis = 1)
+    y = useful_stats['playoffRoundWins']
+    Xs_train, Xs_test, y_train, y_test = train_test_split(Xs, y, test_size = 0.33)
+    print(Xs_train, y_train)
+    model.fit(Xs_train, y_train)
+    pred_values = model.predict(Xs_test)
+    print(pred_values)
     #print(df)
 
 if __name__ == "__main__":

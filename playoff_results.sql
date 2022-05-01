@@ -28,7 +28,11 @@ UPDATE "stanley-cup-predictions"
 	OR (season = '20172018'
 		AND team IN ('NJD', 'TOR', 'CBJ', 'PHI', 'COL', 'MIN', 'LAK', 'ANA'))
 	OR (season = '20182019'
-		AND team IN ('TBL', 'TOR', 'WSH', 'PIT', 'NSH', 'WPG', 'CGY', 'VGK'));
+		AND team IN ('TBL', 'TOR', 'WSH', 'PIT', 'NSH', 'WPG', 'CGY', 'VGK'))
+	OR (season = '20192020'
+		AND team IN ('MTL', 'CBJ', 'WSH', 'CAR', 'CHI', 'ARZ', 'CGY', 'STL'))
+    OR (season = '20202021'
+        AND team IN ('TOR', 'EDM', 'WSH', 'PIT', 'STL', 'MIN', 'FLA', 'NSH'));
 
 UPDATE "stanley-cup-predictions"
 	SET playoffRoundWins = 1
@@ -53,7 +57,11 @@ UPDATE "stanley-cup-predictions"
 	OR (season = '20172018'
 		AND team IN ('BOS', 'PIT', 'NSH', 'SJS'))
 	OR (season = '20182019'
-		AND team IN ('CBJ', 'NYI', 'DAL', 'COL'));
+		AND team IN ('CBJ', 'NYI', 'DAL', 'COL'))
+	OR (season = '20192020'
+		AND team IN ('PHI', 'BOS', 'VAN', 'COL'))
+    OR (season = '20202021'
+        AND team IN ('BOS', 'WPG', 'CAR', 'COL'));
 
 UPDATE "stanley-cup-predictions"
 	SET playoffRoundWins = 2
@@ -78,7 +86,11 @@ UPDATE "stanley-cup-predictions"
 	OR (season = '20172018'
 		AND team IN ('TBL', 'WPG'))
 	OR (season = '20182019'
-		AND team IN ('CAR', 'SJS'));
+		AND team IN ('CAR', 'SJS'))
+	OR (season = '20192020'
+		AND team IN ('NYI', 'VGK'))
+    OR (season = '20202021',
+        AND team IN ('NYI', 'VGK'));
 
 UPDATE "stanley-cup-predictions"
 	SET playoffRoundWins = 3
@@ -109,7 +121,11 @@ UPDATE "stanley-cup-predictions"
 	OR (season = '20172018'
 		AND team = 'VGK')
 	OR (season = '20182019'
-		AND team = 'BOS');
+		AND team = 'BOS')
+	OR (season = '20192020'
+		AND team = 'DAL');
+    OR (season = '20202021'
+        AND team = 'MTL');
 
 UPDATE "stanley-cup-predictions"
 	SET playoffRoundWins = 4
@@ -140,4 +156,8 @@ UPDATE "stanley-cup-predictions"
 	OR (season = '20172018'
 		AND team = 'WSH')
 	OR (season = '20182019'
-		AND team = 'STL');
+		AND team = 'STL')
+	OR (season = '20192020'
+		AND team = 'TBL')
+    OR (season = '20202021'
+        AND team = 'TBL');

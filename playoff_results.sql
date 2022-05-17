@@ -89,7 +89,7 @@ UPDATE "stanley-cup-predictions"
 		AND team IN ('CAR', 'SJS'))
 	OR (season = '20192020'
 		AND team IN ('NYI', 'VGK'))
-    OR (season = '20202021',
+    OR (season = '20202021'
         AND team IN ('NYI', 'VGK'));
 
 UPDATE "stanley-cup-predictions"
@@ -123,7 +123,7 @@ UPDATE "stanley-cup-predictions"
 	OR (season = '20182019'
 		AND team = 'BOS')
 	OR (season = '20192020'
-		AND team = 'DAL');
+		AND team = 'DAL')
     OR (season = '20202021'
         AND team = 'MTL');
 

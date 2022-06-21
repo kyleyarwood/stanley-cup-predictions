@@ -22,7 +22,7 @@ keyring==10.6.0
 keyrings.alt==3.0
 language-selector==0.1
 MarkupSafe==1.0
-numpy==1.17.1
+numpy==1.22.0
 oauthlib==2.0.6
 PAM==0.4.2
 pandas==0.25.1
